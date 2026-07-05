@@ -5,13 +5,6 @@ from google.oauth2 import service_account
 
 # Connect to Google Earth Engine
 def connect():
-    """
-    Connect to Google Earth Engine.
-
-    - Uses Streamlit Secrets when running on Streamlit Cloud.
-    - Uses local authentication when running on your own computer.
-    """
-
     try:
         credentials = service_account.Credentials.from_service_account_info(
             dict(st.secrets["gcp_service_account"]),
@@ -23,13 +16,14 @@ def connect():
             project="awd-rice-cultivation"
         )
 
-    except Exception:
+        print("✅ Connected using Streamlit Secrets")
 
-        ee.Initialize(project="awd-rice-cultivation")
+    except Exception as e:
 
-    print("✅ Google Earth Engine connected successfully!")
+        print("SERVICE ACCOUNT ERROR:")
+        print(e)
 
-
+        raise
 # Return the field polygon
 def get_field():
     return ee.Geometry.Polygon([
