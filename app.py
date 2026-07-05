@@ -391,7 +391,7 @@ if generate:
 
         st.info(recommendation)
 
-    elif recommendation == "IRRIGATION REQUIRED WITHIN 1–3 DAYS":
+    elif recommendation == "IRRIGATION REQUIRED":
 
         st.warning(recommendation)
 

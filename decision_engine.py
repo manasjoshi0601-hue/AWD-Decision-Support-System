@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 def calculate_days_after_transplanting(farmer_data):
     """
     Calculates the number of days after transplanting.
@@ -213,14 +213,22 @@ def make_irrigation_decision(field_status, prediction, crop_stage):
 
         else:
 
-            return {
-                "recommendation": "IRRIGATION REQUIRED WITHIN 1–3 DAYS",
-                "reason": (
-                    "The field is approaching the AWD irrigation threshold "
-                    "and no meaningful rainfall is expected. "
-                    "Monitor the field daily and prepare for irrigation."
-                )
+         today = date.today()
+
+        start_date = today.strftime("%d %B")
+        end_date = (today + timedelta(days=2)).strftime("%d %B")
+
+        return {
+ 
+              "recommendation": "IRRIGATION REQUIRED",
+
+             "reason": (
+             f"Recommended irrigation window: "
+            f"{start_date} – {end_date}."
+    )
+
             }
+            
 
     # ---------------------------------
     # CRITICAL
