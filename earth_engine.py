@@ -1,9 +1,32 @@
 import ee
 from datetime import datetime, timedelta, timezone
+import streamlit as st
+from google.oauth2 import service_account
 
 # Connect to Google Earth Engine
 def connect():
-    ee.Initialize(project="awd-rice-cultivation")
+    """
+    Connect to Google Earth Engine.
+
+    - Uses Streamlit Secrets when running on Streamlit Cloud.
+    - Uses local authentication when running on your own computer.
+    """
+
+    try:
+        credentials = service_account.Credentials.from_service_account_info(
+            dict(st.secrets["gcp_service_account"]),
+            scopes=["https://www.googleapis.com/auth/earthengine"]
+        )
+
+        ee.Initialize(
+            credentials=credentials,
+            project="awd-rice-cultivation"
+        )
+
+    except Exception:
+
+        ee.Initialize(project="awd-rice-cultivation")
+
     print("✅ Google Earth Engine connected successfully!")
 
 
